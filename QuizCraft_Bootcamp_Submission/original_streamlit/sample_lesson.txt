@@ -1,0 +1,17 @@
+INTRODUCTION TO GENERATIVE ARTIFICIAL INTELLIGENCE
+
+Generative AI refers to artificial intelligence systems that create new content, such as text, images, audio, or code, by learning patterns from training data. Examples include text-writing assistants and image generators.
+
+A large language model (LLM) is trained on large amounts of text and learns to predict likely next tokens. A token may be a word, part of a word, or punctuation. Many modern language models use the Transformer architecture, which employs attention mechanisms to connect information across a sequence of text.
+
+A prompt is a user's instruction or input that guides the model's output. A good prompt often states the task, provides relevant context, and explains the desired format. For example, a teacher may ask a model to write five practice questions based only on a lesson.
+
+Temperature is a setting that influences how random or varied generated responses are. Lower temperature values tend to produce more predictable answers; higher values often increase variation.
+
+A hallucination is an answer that sounds convincing but is false or unsupported. Language models may hallucinate because their responses are generated from learned patterns rather than guaranteed fact checking. Important answers should be verified against reliable information.
+
+Retrieval-augmented generation (RAG) retrieves relevant information from an external source before generating an answer. RAG can help keep responses grounded in specific documents, but retrieved information still needs checking.
+
+Fine-tuning adapts a pretrained model by training it further on a task-specific dataset. Prompting and RAG are alternatives that may not require modifying the model's parameters.
+
+Responsible use of generative AI includes protecting private information, checking generated outputs for accuracy, and being transparent when AI has helped produce content. A teacher should check AI-generated questions for accuracy and clarity before use.

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="QuizCraft converts lesson notes into practice questions with Gemini and teacher review." />
+  <title>QuizCraft | AI Question Generator</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand"><span class="brand-icon" aria-hidden="true">✦</span>
+        <span><strong>QuizCraft</strong><small>AI Question Studio</small></span>
+      </div>
+      <div class="top-right">
+        <span class="project-tag">GEN AI BOOTCAMP · PROJECT 20</span>
+        <span id="connection-status" class="status-pill">Checking AI connection…</span>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">✦ LEARNING, POWERED BY AI</p>
+        <h1 id="hero-title">Your lesson.<br/><span>Smarter questions.</span></h1>
+        <p>Turn course notes into practice quizzes, review every answer like a teacher, and test the experience as a student.</p>
+        <div class="hero-chips"><span>01 · Provide notes</span><span>02 · Generate</span><span>03 · Review</span><span>04 · Practice</span></div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="floating-icon">✧</div>
+        <div class="visual-card"><div class="tiny-overline">GENERATED QUESTION</div>
+          <div class="visual-lines"><i></i><i></i></div>
+          <div class="visual-answer">✓ <span></span></div>
+          <div class="visual-lines small"><i></i></div>
+        </div>
+        <div class="visual-circle visual-circle-1"></div><div class="visual-circle visual-circle-2"></div>
+      </div>
+    </section>
+
+    <main class="workspace">
+      <aside class="panel controls" aria-label="Question generator settings">
+        <div class="panel-header"><div><p class="section-label">STEP 01</p><h2>Build your quiz</h2></div><span class="number-chip">01</span></div>
+        <div class="field-block">
+          <label for="lesson">Lesson content</label>
+          <div class="mini-actions">
+            <button type="button" id="load-sample" class="text-button">↗ Load sample lesson</button>
+            <label for="file-upload" class="file-button">↑ Upload .txt / .md</label>
+            <input type="file" id="file-upload" accept=".txt,.md,text/plain,text/markdown" hidden/>
+          </div>
+          <textarea id="lesson" rows="11" maxlength="20000" placeholder="Paste your lesson text here. For example: What is generative AI? How do language models work? ..."></textarea>
+          <p class="field-hint"><span id="lesson-count">0</span> / 20,000 characters · minimum 80</p>
+        </div>
+        <div class="settings-grid">
+          <div class="field-block"><label for="question-count">Questions</label><select id="question-count"><option>2</option><option>3</option><option>4</option><option>5</option><option selected>4</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
+          <div class="field-block"><label for="question-types">Question format</label><select id="question-types"><option selected>Mixed</option><option>Multiple choice</option><option>Short answer</option></select></div>
+          <div class="field-block"><label for="difficulty">Difficulty</label><select id="difficulty"><option>Beginner</option><option selected>Intermediate</option><option>Advanced</option></select></div>
+          <div class="field-block"><label for="language">Language</label><select id="language"><option selected>English</option><option>Spanish</option></select></div>
+        </div>
+        <div class="field-block" id="code-wrap" hidden><label for="demo-code">Classroom access code</label><input class="editor-input" type="password" id="demo-code" placeholder="Code provided by the project owner" autocomplete="off"/><p class="field-hint">Required only when the deployment owner enables it.</p></div>
+        <button id="generate" type="button" class="primary-button"><span>✧</span> Generate with Gemini</button>
+        <button id="demo" type="button" class="outline-button">Try offline demo (no API key)</button>
+        <p class="privacy">🔒 Keep API keys on the server. Use sample or public lesson notes and verify AI output.</p>
+      </aside>
+
+      <section class="panel results" aria-label="Generated quiz workspace">
+        <div class="panel-header results-head"><div><p class="section-label">STEP 02 – 04</p><h2>Question workspace</h2></div><span id="source-label" class="source-tag">WAITING FOR QUIZ</span></div>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-art"><span class="empty-star">✦</span><div class="empty-paper"><i></i><i></i><i></i><b>✓</b></div></div>
+          <h3>Great questions start with a lesson.</h3>
+          <p>Add lesson notes, choose your settings, and click <strong>Generate with Gemini</strong>. Or open the offline example to explore the whole project.</p>
+          <div class="empty-note">Your teacher-review and student-preview tools will appear here.</div>
+        </div>
+        <div id="quiz-workspace" hidden>
+          <div class="quiz-summary">
+            <div class="quiz-title-group"><p class="tiny-overline">CURRENT QUESTION BANK</p><h3 id="quiz-title">Quiz title</h3></div>
+            <div class="metrics"><div><b id="metric-total">0</b><small>Questions</small></div><div><b id="metric-mcq">0</b><small>MCQ</small></div><div><b id="metric-approved">0</b><small>Approved</small></div></div>
+          </div>
+          <div class="tab-list" role="tablist" aria-label="Quiz workspace tabs">
+            <button class="tab is-active" id="tab-review" role="tab" aria-selected="true" aria-controls="review-view">✎ Teacher review</button>
+            <button class="tab" id="tab-student" role="tab" aria-selected="false" aria-controls="student-view">◈ Student preview</button>
+            <button class="tab" id="tab-export" role="tab" aria-selected="false" aria-controls="export-view">⇩ Export</button>
+          </div>
+          <div id="review-view" class="tab-view" role="tabpanel" aria-labelledby="tab-review">
+            <div class="inline-tip"><span>●</span> The AI suggests questions; the teacher checks accuracy, edits the wording, and approves them.</div>
+            <div class="review-actions"><span id="approval-message">0 of 0 approved</span><button type="button" id="approve-all" class="subtle-button">Approve valid questions</button></div>
+            <div id="review-questions"></div>
+          </div>
+          <div id="student-view" class="tab-view" role="tabpanel" aria-labelledby="tab-student" hidden>
+            <div class="inline-tip"><span>●</span> Only approved questions appear in student preview. Short answers need human grading.</div>
+            <div id="student-questions"></div>
+            <div id="student-actions" hidden><button id="check-answers" class="primary-button">Check my answers</button></div>
+            <div id="score-result" class="score-result" hidden></div>
+          </div>
+          <div id="export-view" class="tab-view" role="tabpanel" aria-labelledby="tab-export" hidden>
+            <div class="export-panel"><div class="export-illustration">⇩</div><h3>Ready to use your questions?</h3><p>Download the question bank with answer keys, explanations, and teacher approval status.</p>
+              <label class="toggle-line"><input type="checkbox" id="approved-only" checked/> Export only approved questions</label>
+              <div class="export-buttons"><button id="download-json" class="primary-button">Download JSON</button><button id="download-csv" class="outline-button">Download CSV</button></div>
+              <small>Edits are stored only in this open browser session. Export to keep them.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>QuizCraft · Generative AI Bootcamp Project 20</span><span>Built with Python, FastAPI & Gemini · Human review required</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
