@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "original_streamlit": {
+      "root": "QuizCraft_Bootcamp_Submission/original_streamlit",
+      "runtime": "python"
+    },
+    "vercel_app": {
+      "root": "QuizCraft_Bootcamp_Submission/vercel_app",
+      "framework": "fastapi"
+    }
+  },
+  "rewrites": []
+}
